@@ -13,7 +13,7 @@ See also: <https://github.com/microsoft/go/blob/microsoft/main/eng/doc/fips/READ
 1. Get binaries from <https://github.com/microsoft/go/blob/microsoft/main/eng/doc/Downloads.md>.
 1. Go into an example dir.
 1. Run `go run .`, where `go` is the path to the downloaded binary, `go/bin/go`.
-1. Use `$env:GOEXPERIMENT = 'cngcrypto'` (pwsh) or `export GOEXPERIMENT=opensslcrypto` (bash) to use backends. (Among other ways.)
+1. Use `$env:GOEXPERIMENT = 'cngcrypto'` (pwsh) or `export GOEXPERIMENT=opensslcrypto` (bash) to use backends. (Among other ways.) Then `go run .` again to recompile and run.
 
 ### Main Dockerfile
 
