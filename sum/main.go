@@ -7,29 +7,41 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"runtime"
+	"time"
 )
 
 func sumHandler(w http.ResponseWriter, r *http.Request) {
 	v := r.URL.Query().Get("v")
 
 	s := sha256.New()
-	_, err := s.Write([]byte(r.RequestURI))
-	if err != nil {
+	if _, err := s.Write([]byte(r.RequestURI)); err != nil {
 		log.Fatalln(err)
 	}
-	sum := s.Sum(nil)
-	sumStr := hex.EncodeToString(sum)
+	sumStr := hex.EncodeToString(s.Sum(nil))
+
+	t := time.Now().UTC().Format(time.RFC3339Nano)
+	if _, err := s.Write([]byte(t)); err != nil {
+		log.Fatalln(err)
+	}
+	sumStr2 := hex.EncodeToString(s.Sum(nil))
 
 	data, err := json.MarshalIndent(struct {
 		Request string
+		Version string
 		Type    string
 		Value   string
 		Sum     string
+		Value2  string
+		Sum2    string
 	}{
 		r.RequestURI,
+		runtime.Version(),
 		fmt.Sprintf("%T", s),
 		v,
 		sumStr,
+		v + t,
+		sumStr2,
 	}, "", "  ")
 	if err != nil {
 		log.Fatalln(err)
