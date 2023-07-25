@@ -8,17 +8,18 @@ See also: <https://github.com/microsoft/go/blob/microsoft/main/eng/doc/fips/READ
 
 ## Build
 
+### Local
+
 1. Get binaries from <https://github.com/microsoft/go/blob/microsoft/main/eng/doc/Downloads.md>.
 1. Go into an example dir.
 1. Run `go run .`, where `go` is the path to the downloaded binary, `go/bin/go`.
 1. Use `$env:GOEXPERIMENT = 'cngcrypto'` (pwsh) or `export GOEXPERIMENT=opensslcrypto` (bash) to use backends. (Among other ways.)
 
-There are also Dockerfiles for easy access to the Microsoft Go toolset:
-
 ### Main Dockerfile
 
-Useful build + run for the main `Dockerfile`:
+Useful build + run for the main `Dockerfile`.
 Uses a multi-stage build to keep the final image small, per standard practice.
+Uses the Microsoft Go images so you don't need to download the Go toolset yourself.
 
 ```sh
 docker build . -t sum && docker run -p 8080:8080 -it --rm sum
